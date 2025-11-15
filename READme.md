@@ -28,9 +28,7 @@ project/
 ├── requirements.txt
 
 ├── templates/
-
 │   └── index.html
-
 └── static/
     ├── by_city.png
     
@@ -96,4 +94,5 @@ You can host this on:
 Mahesh Kshirsagar<br>
 maheshkshirsagar510@gmail.com<br>
 Maharashtra, India
+
 
