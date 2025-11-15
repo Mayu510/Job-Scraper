@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Job & Internship Finder — Trends</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --muted: #6b7280;
+      --accent-flat: #2563eb;
+      --radius: 14px;
+      --maxw:1200px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Arial;background:linear-gradient(180deg,#f6f8ff 0%,#f4f7fb 60%);color:#0b1220;padding:36px;display:flex;justify-content:center}
+    .wrap{width:100%;max-width:var(--maxw)}
+    header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#5b8cff,#7c3aed);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+    .layout{display:grid;grid-template-columns:1fr 360px;gap:20px}
+    .card{background:var(--card);border-radius:var(--radius);padding:18px;box-shadow:0 10px 30px rgba(15,23,42,0.06)}
+    .section-title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+    input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #eef4ff;background:#fff}
+    .choices{display:flex;gap:10px;flex-wrap:wrap}
+    .choice{display:flex;gap:8px;align-items:center;padding:8px 12px;border-radius:10px;border:1px solid #eef4ff;background:#fbfdff;font-weight:600;cursor:pointer}
+    .btn{display:inline-block;padding:10px 16px;border-radius:12px;background:linear-gradient(90deg,#2563eb,#7c3aed);color:#fff;font-weight:700;border:none;cursor:pointer}
+    table{width:100%;border-collapse:collapse;margin-top:12px} th,td{padding:12px 10px;text-align:left;border-bottom:1px solid #f0f4ff}
+    .stat{display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:12px;background:linear-gradient(180deg,#fff,#fbfdff);border:1px solid #eef4ff;margin-bottom:14px}
+    .charts{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:10px}
+    .small-charts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .chart-card{padding:12px;border-radius:12px;background:#fff;border:1px solid #eef4ff;min-height:140px;display:flex;align-items:center;justify-content:center;flex-direction:column}
+    .chart-card img{max-width:100%;height:auto;display:block}
+    label.inline{display:inline-flex;align-items:center;gap:8px;cursor:pointer}
+    @media (max-width:980px){.layout{grid-template-columns:1fr}.small-charts{grid-template-columns:1fr}.charts{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="logo">JF</div>
+        <div>
+          <h1 style="margin:0">Job & Internship Finder</h1>
+          <div style="color:var(--muted);font-size:13px">Current job trends and insights</div>
+        </div>
+      </div>
+      <div style="text-align:right;color:var(--muted);font-size:13px">Built with HTML + CSS + Python</div>
+    </header>
+
+    <div class="layout">
+      <!-- LEFT -->
+      <div class="card">
+        <form action="/search" method="post" id="searchForm">
+          <div style="margin-bottom:16px">
+            <div class="section-title"><h2 style="margin:0">1) Job or Internship</h2></div>
+            <div class="choices" role="group" aria-label="job or internship">
+              <label class="choice inline"><input type="checkbox" name="type_job" id="type_job" value="on" {% if want_job %}checked{% endif %}> Job</label>
+              <label class="choice inline"><input type="checkbox" name="type_intern" id="type_intern" value="on" {% if want_intern %}checked{% endif %}> Internship</label>
+            </div>
+          </div>
+
+          <div style="margin-bottom:12px">
+            <div class="section-title"><h2 style="margin:0">2) Role / Position</h2></div>
+            <input type="text" name="role" value="{{ role }}" placeholder="e.g., Data Analyst" aria-label="role">
+          </div>
+
+          <div style="margin-bottom:12px">
+            <div class="section-title"><h2 style="margin:0">3) Place / City</h2></div>
+            <input type="text" name="place" value="{{ place }}" placeholder="e.g., Bangalore or leave blank for all" aria-label="place">
+          </div>
+
+          <div style="margin-bottom:16px">
+            <div class="section-title"><h2 style="margin:0">4) Filters & Sources</h2></div>
+            <div style="display:flex;gap:12px;align-items:center">
+              <select name="max_results" style="flex:1" aria-label="max results">
+                <option value="10">10</option>
+                <option value="25" selected>25</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+              </select>
+              <div style="flex:1;display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap">
+                <!-- removed Internshala & Naukri -->
+                <label class="choice inline"><input type="checkbox" name="src_indeed" value="on" {% if src_indeed %}checked{% endif %}> Indeed</label>
+                <label class="choice inline"><input type="checkbox" name="src_linkedin" value="on" {% if src_linkedin %}checked{% endif %}> LinkedIn</label>
+                <label class="choice inline"><input type="checkbox" name="src_remoteok" value="on" {% if src_remoteok %}checked{% endif %}> RemoteOK</label>
+              </div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:10px;align-items:center">
+              <label class="choice inline" title="Only show results that contain the role text in title or company"><input type="checkbox" name="filter_exact" value="on" {% if filter_exact %}checked{% endif %}> Only matching titles</label>
+              <button class="btn" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
+
+        <div>
+          <h3 style="margin:0 0 8px 0">Results</h3>
+          {% if jobs and jobs|length > 0 %}
+          <table>
+            <thead><tr><th>Source</th><th>Title</th><th>Company</th><th>Location</th><th>Type</th><th>Link</th></tr></thead>
+            <tbody>
+              {% for j in jobs %}
+              <tr>
+                <td>{{ j.source }}</td>
+                <td>{{ j.title }}</td>
+                <td>{{ j.company }}</td>
+                <td>{{ j.location }}</td>
+                <td>{{ j.job_type }}</td>
+                <td>{% if j.url %}<a href="{{ j.url }}" target="_blank" rel="noopener noreferrer">Open</a>{% else %}-{% endif %}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <table>
+            <thead><tr><th>Source</th><th>Title</th><th>Company</th><th>Location</th><th>Type</th></tr></thead>
+            <tbody>
+              <tr><td>—</td><td>No results</td><td>—</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- RIGHT -->
+      <div>
+        <div class="card stat" style="margin-bottom:12px">
+          <div style="font-size:13px;color:var(--muted)">Total openings (in memory)</div>
+          <div style="font-weight:800;font-size:20px">{% if jobs %}{{ jobs|length }}{% else %}0{% endif %}</div>
+        </div>
+
+        <div class="card" style="padding:14px 14px 18px 14px;margin-bottom:14px">
+          <div class="charts">
+            <div class="chart-card" style="min-height:160px">
+              <h3 style="margin:0 0 8px 0">Current Job Trends (last 14 days)</h3>
+              <img src="/static/by_trend.png" alt="Openings trend (last 14 days)" onerror="this.style.display='none'">
+            </div>
+          </div>
+
+          <div class="small-charts">
+            <div class="chart-card">
+              <h3 style="margin:0 0 8px 0">Openings by City</h3>
+              <img src="/static/by_city.png" alt="Openings by City" onerror="this.style.display='none'">
+            </div>
+            <div class="chart-card">
+              <h3 style="margin:0 0 8px 0">Openings by Type</h3>
+              <img src="/static/by_type.png" alt="Openings by Type" onerror="this.style.display='none'">
+            </div>
+          </div>
+
+          <div style="padding:12px;border-radius:12px;background:#fff;border:1px solid #eef4ff;margin-top:12px">
+            <h3 style="margin:0 0 8px 0">Top roles (sample)</h3>
+            <div style="display:flex;justify-content:space-between;padding:6px 0">Data Analyst <strong>38</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0">Frontend Dev <strong>26</strong></div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0">ML Intern <strong>18</strong></div>
+          </div>
+        </div>
+
+        <div class="card"><div style="font-weight:700">Notes</div><div style="color:var(--muted);font-size:13px">If you want only exact role matches, keep "Only matching titles" checked. Remote roles are normalized to "Remote / WFH". If charts are blank, run a search to regenerate charts.</div></div>
+      </div>
+    </div>
+
+    <footer style="margin-top:18px;color:var(--muted);text-align:center">© 2025</footer>
+  </div>
+
+  <script>
+    document.getElementById('searchForm').addEventListener('submit', function(e){
+      const role = document.querySelector('input[name="role"]').value.trim();
+      const filterExact = document.querySelector('input[name="filter_exact"]').checked;
+      if (filterExact && !role) {
+        e.preventDefault();
+        alert('Please enter the Role (e.g., "Data Analyst") when "Only matching titles" is checked.');
+        return;
+      }
+      const srcs = ['src_indeed','src_linkedin','src_remoteok'];
+      let ok=false;
+      for(const s of srcs){
+        const el=document.querySelector('input[name="'+s+'"]');
+        if(el && el.checked){ ok=true; break; }
+      }
+      if(!ok){
+        e.preventDefault();
+        alert('Please select at least one source (Indeed, LinkedIn or RemoteOK).');
+        return;
+      }
+    });
+  </script>
+</body>
+</html>
