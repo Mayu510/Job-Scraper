@@ -21,7 +21,20 @@ pip install flask requests beautifulsoup4 lxml matplotlib
 
 3.Folder structure:
 
-<pre> ``` project/ │ ├── backend.py ├── requirements.txt │ ├── templates/ │ └── index.html │ └── static/ ├── by_city.png ├── by_type.png └── by_trend.png ``` </pre>
+<pre> ```
+project/
+│
+├── backend.py
+├── requirements.txt
+│
+├── templates/
+│   └── index.html
+│
+└── static/
+    ├── by_city.png
+    ├── by_type.png
+    └── by_trend.png
+ ``` </pre>
 
 4.Run the project:
 python backend.py
@@ -81,6 +94,7 @@ You can host this on:
 Mahesh Kshirsagar<br>
 maheshkshirsagar510@gmail.com<br>
 Maharashtra, India
+
 
 
 
